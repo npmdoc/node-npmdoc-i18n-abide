@@ -1,4 +1,7 @@
-# api documentation for  [i18n-abide (v0.0.25)](https://github.com/mozilla/i18n-abide)  [![npm package](https://img.shields.io/npm/v/npmdoc-i18n-abide.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-i18n-abide) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-i18n-abide.svg)](https://travis-ci.org/npmdoc/node-npmdoc-i18n-abide)
+# npmdoc-i18n-abide
+
+#### basic api documentation for  [i18n-abide (v0.0.25)](https://github.com/mozilla/i18n-abide)  [![npm package](https://img.shields.io/npm/v/npmdoc-i18n-abide.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-i18n-abide) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-i18n-abide.svg)](https://travis-ci.org/npmdoc/node-npmdoc-i18n-abide)
+
 #### Express/connect module for Node i18n and l10n support
 
 [![NPM](https://nodei.co/npm/i18n-abide.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/i18n-abide)
