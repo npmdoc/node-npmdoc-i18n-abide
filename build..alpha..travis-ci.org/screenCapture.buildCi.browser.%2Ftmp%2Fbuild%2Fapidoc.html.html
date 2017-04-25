@@ -137,123 +137,6 @@
 
     </ol></li>
 
-    <li class="apidocModuleLi"><a href="#apidoc.module.i18n-abide.abide">module i18n-abide.abide</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.i18n-abide.abide.abide">
-            function <span class="apidocSignatureSpan">i18n-abide.</span>abide
-            <span class="apidocSignatureSpan">(options)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
-    <li class="apidocModuleLi"><a href="#apidoc.module.i18n-abide.bestLanguage">module i18n-abide.bestLanguage</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.i18n-abide.bestLanguage.bestLanguage">
-            function <span class="apidocSignatureSpan">i18n-abide.</span>bestLanguage
-            <span class="apidocSignatureSpan">(languages, supported_languages, defaultLanguage)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
-    <li class="apidocModuleLi"><a href="#apidoc.module.i18n-abide.format">module i18n-abide.format</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.i18n-abide.format.format">
-            function <span class="apidocSignatureSpan">i18n-abide.</span>format
-            <span class="apidocSignatureSpan">(fmt, obj, named)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
-    <li class="apidocModuleLi"><a href="#apidoc.module.i18n-abide.getLocales">module i18n-abide.getLocales</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.i18n-abide.getLocales.getLocales">
-            function <span class="apidocSignatureSpan">i18n-abide.</span>getLocales
-            <span class="apidocSignatureSpan">()</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
-    <li class="apidocModuleLi"><a href="#apidoc.module.i18n-abide.languageFrom">module i18n-abide.languageFrom</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.i18n-abide.languageFrom.languageFrom">
-            function <span class="apidocSignatureSpan">i18n-abide.</span>languageFrom
-            <span class="apidocSignatureSpan">(locale)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
-    <li class="apidocModuleLi"><a href="#apidoc.module.i18n-abide.localeFrom">module i18n-abide.localeFrom</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.i18n-abide.localeFrom.localeFrom">
-            function <span class="apidocSignatureSpan">i18n-abide.</span>localeFrom
-            <span class="apidocSignatureSpan">(language)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
-    <li class="apidocModuleLi"><a href="#apidoc.module.i18n-abide.normalizeLanguage">module i18n-abide.normalizeLanguage</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.i18n-abide.normalizeLanguage.normalizeLanguage">
-            function <span class="apidocSignatureSpan">i18n-abide.</span>normalizeLanguage
-            <span class="apidocSignatureSpan">(language)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
-    <li class="apidocModuleLi"><a href="#apidoc.module.i18n-abide.normalizeLocale">module i18n-abide.normalizeLocale</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.i18n-abide.normalizeLocale.normalizeLocale">
-            function <span class="apidocSignatureSpan">i18n-abide.</span>normalizeLocale
-            <span class="apidocSignatureSpan">(locale)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
-    <li class="apidocModuleLi"><a href="#apidoc.module.i18n-abide.parseAcceptLanguage">module i18n-abide.parseAcceptLanguage</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.i18n-abide.parseAcceptLanguage.parseAcceptLanguage">
-            function <span class="apidocSignatureSpan">i18n-abide.</span>parseAcceptLanguage
-            <span class="apidocSignatureSpan">(header)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
 </ol></div>
 
 <div class="apidocSectionDiv">
@@ -418,7 +301,23 @@ This block sets up the middleware and views with gettext support.
   }
   return defaultLanguage;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+suite.addBatch({
+"We find exact language match": {
+  topic: function() {
+    var accept = 'pa,sv;q=0.8,fi;q=0.7,it-ch;q=0.5,en-us;q=0.3,en;q=0.2';
+    var supported = ['af', 'en-US', 'pa'];
+    var def = 'en-US';
+    return i18n.<span class="apidocCodeKeywordSpan">bestLanguage</span>(
+        i18n.parseAcceptLanguage(accept),
+        supported, def);
+  },
+  "For Punjabi": function(err, locale) {
+    assert.equal(locale, "pa");
+  }
+},
+...</pre></li>
     </ul>
 
 
@@ -442,7 +341,23 @@ This block sets up the middleware and views with gettext support.
     return fmt;
   }
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  files.forEach(function (file, i) {
+    fs.exists(path.join(localeDir, file, 'LC_MESSAGES', 'client.po'), function (c_exists) {
+      if (c_exists) {
+        fs.exists(path.join(localeDir, file, 'LC_MESSAGES', 'messages.po'), function (m_exists) {
+          if (m_exists) {
+            allLocales.push(i18n.languageFrom(file));
+          } else {
+            console.error(util.<span class="apidocCodeKeywordSpan">format</span>('%s client.po exists, but not messages.po&amp;#
+x27;, file));
+          }
+        });
+      }
+    });
+  });
+});
+...</pre></li>
     </ul>
 
 
@@ -490,7 +405,25 @@ This block sets up the middleware and views with gettext support.
     return locale;
   }
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  error = 0,
+  logged = false;
+
+console.log("Checking ", config.get('supported_languages').length, "languages from ", process.env[&amp;#
+x27;CONFIG_FILES']);
+
+config.get('supported_languages').forEach(function (lang, i) {
+var locale = i18n.localeFrom(lang);
+if (i18n.<span class="apidocCodeKeywordSpan">languageFrom</span>(locale) !== lang) {
+  console.error("Hmmm language=", lang, "seems fishy! Converts to locale=",
+    locale, " and back again into language=", i18n.languageFrom(locale));
+  error = 1;
+}
+fs.exists(path.join(__dirname, '..', 'locale', locale, 'LC_MESSAGES', 'messages.po'), function
+ (m_exists) {
+  if (! m_exists) {
+    console.error("Language ", lang, " doesn't exist. Expected",
+...</pre></li>
     </ul>
 
 
@@ -523,7 +456,25 @@ This block sets up the middleware and views with gettext support.
     return language;
   }
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+var config = require('../lib/configuration.js'),
+  error = 0,
+  logged = false;
+
+console.log("Checking ", config.get('supported_languages').length, "languages from ", process.env[&amp;#
+x27;CONFIG_FILES']);
+
+config.get('supported_languages').forEach(function (lang, i) {
+var locale = i18n.<span class="apidocCodeKeywordSpan">localeFrom</span>(lang);
+if (i18n.languageFrom(locale) !== lang) {
+  console.error("Hmmm language=", lang, "seems fishy! Converts to locale=",
+    locale, " and back again into language=", i18n.languageFrom(locale));
+  error = 1;
+}
+fs.exists(path.join(__dirname, '..', 'locale', locale, 'LC_MESSAGES', 'messages.po'), function
+ (m_exists) {
+  if (! m_exists) {
+...</pre></li>
     </ul>
 
 
@@ -538,7 +489,23 @@ This block sets up the middleware and views with gettext support.
     <li>description and source-code<pre class="apidocCodePre">normalizeLanguage = function (language) {
   return languageFrom(localeFrom(language));
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  }
+}
+});
+
+suite.addBatch({
+"a lowercase language code": {
+  topic: function () {
+    return i18n.<span class="apidocCodeKeywordSpan">normalizeLanguage</span>("en");
+  },
+  "is normalized to itself": function (err, str) {
+    assert.equal(str, "en");
+  }
+},
+"an uppercase language code": {
+  topic: function () {
+...</pre></li>
     </ul>
 
 
@@ -553,7 +520,23 @@ This block sets up the middleware and views with gettext support.
     <li>description and source-code<pre class="apidocCodePre">normalizeLocale = function (locale) {
   return localeFrom(languageFrom(locale));
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  }
+}
+});
+
+suite.addBatch({
+"a lowercase locale code": {
+  topic: function () {
+    return i18n.<span class="apidocCodeKeywordSpan">normalizeLocale</span>("en_us");
+  },
+  "is normalized to correct 'xx_XX' format": function (err, str) {
+    assert.equal(str, "en_US");
+  }
+},
+"an uppercase locale code": {
+  topic: function () {
+...</pre></li>
     </ul>
 
 
@@ -585,382 +568,23 @@ This block sets up the middleware and views with gettext support.
   langs.sort(qualityCmp);
   return langs;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.i18n-abide.abide" id="apidoc.module.i18n-abide.abide">module i18n-abide.abide</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.i18n-abide.abide.abide" id="apidoc.element.i18n-abide.abide.abide">
-        function <span class="apidocSignatureSpan">i18n-abide.</span>abide
-        <span class="apidocSignatureSpan">(options)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">abide = function (options) {
-  options = options || {};
-
-  if (! options.gettext_alias)         options.gettext_alias = 'gettext';
-  if (! options.supported_languages)   options.supported_languages = ['en-US'];
-  if (! options.default_lang)          options.default_lang = 'en-US';
-  if (! options.debug_lang)            options.debug_lang = 'it-CH';
-  if (! options.disable_locale_check)  options.disable_locale_check = false;
-  if (! options.translation_directory) options.translation_directory = 'l18n/';
-  if (! options.logger)                options.logger = console;
-
-  // We expect to use PO-&gt;json files, unless configured to use another format.
-  options.translation_type = options.translation_type || 'po';
-  // Only check URL for locale if told to do so.
-  options.locale_on_url = options.locale_on_url === true;
-
-  logger = options.logger;
-
-  function messages_file_path(locale) {
-    // check if the option is 'key-value-json' if so the file format would be 'json' instead
-    var file_format = options.translation_type === 'plist' ? 'plist' : 'json';
-    var filename = 'messages.' + file_format;
-    return path.resolve(path.join(__dirname, '..', '..', '..'),
-                        options.translation_directory,
-                        path.join(locale, filename));
-  }
-
-  function parse_messages_file(locale) {
-    var filepath = messages_file_path(locale);
-
-    if (options.translation_type === 'plist') {
-      return plist.parseFileSync(filepath);
-    }
-    else if (options.translation_type === 'key-value-json') {
-      return require(filepath);
-    }
-    // PO-&gt;json file
-    else {
-      var rawMessages = fs.readFileSync(filepath).toString();
-      return JSON.parse(rawMessages).messages;
-    }
-  }
-
-  options.supported_languages.forEach(function(lang) {
-    var l = localeFrom(lang);
-
-    // populate the in-memory translation cache with client.json, which contains
-    // strings relevant on the server
-    try {
-      translations[l] = parse_messages_file(l);
-    } catch (e) {
-      // an exception here means that there was a problem with the translation
-      // files for this locale!
-      if (options.default_lang === lang || options.debug_lang === lang) return;
-
-      var msg = util.format(
-        'Bad locale=[%s] missing .%s files in [%s]. See locale/README (%s)',
-        l, options.translation_type, messages_file_path(l), e);
-      if (!options.disable_locale_check) {
-        logger.warn(msg);
-      } else {
-        logger.error(msg);
-        throw msg;
-      }
-    }
-  });
-
-  function checkUrlLocale(req) {
-    if (!options.locale_on_url) {
-      return;
-    }
-
-    // Given a URL, http://foo.com/ab/xyz/, we check to see if the first directory
-    // is actually a locale we know about, and if so, we strip it out of the URL
-    // (i.e., URL becomes http://foo.com/xyz/) and store that locale info on the
-    // request's accept-header.
-    var matches = req.url.match(/^\/([^\/]+)(\/|$)/);
-    if (!(matches &amp;&amp; matches[1])) {
-      return;
-    }
-
-    // Look for a lang we know about, and if found, strip it off the URL so routes
-    // continue to work. If we don't find it (i.e., comes back "unknown") then bail.
-    // We do this so that we don't falsely consume more of the URL than we should
-    // and stip things that aren't actually locales we know about.
-    var lang = bestLanguage(parseAcceptLanguage(matches[1]),
-                            options.supported_languages,
-                            "unknown");
-    if (lang === "unknown") {
-      return;
-    }
-
-    req.url = req.url.replace(matches[0], '/');
-    req.headers['accept-language'] = lang;
-  }
-
-  return function(req, resp, next) {
-    checkUrlLocale(req);
-
-    var langs = parseAcceptLanguage(req.headers['accept-language']),
-        lang_dir,
-        lang = bestLanguage(langs, options.supported_languages,
-                            options.default_lang),
-        debug_lang = options.debug_lang.toLowerCase(),
-        locale,
-        locals = {},
-        gt;
-
-    if (lang &amp;&amp; lang.toLowerCase &amp;&amp; lang.toLowerCase() === debug_lang) {
-      // What? http://www.youtube.com/watc ...</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-In this README, we'll use express and EJS templates, but other
-integrations are possible.
-
-In your app where you setup express:
-
-    var i18n = require('i18n-abide');
-
-    app.use(i18n.<span class="apidocCodeKeywordSpan">abide</span>({
-      supported_languages: ['en-US', 'de', 'es', 'db-LB', 'it-CH'],
-      default_lang: 'en-US',
-      debug_lang: 'it-CH',
-      translation_directory: 'i18n'
-    }));
-
-This block sets up the middleware and views with gettext support.
+suite.addBatch({
+"We find exact language match": {
+  topic: function() {
+    var accept = 'pa,sv;q=0.8,fi;q=0.7,it-ch;q=0.5,en-us;q=0.3,en;q=0.2';
+    var supported = ['af', 'en-US', 'pa'];
+    var def = 'en-US';
+    return i18n.bestLanguage(
+        i18n.<span class="apidocCodeKeywordSpan">parseAcceptLanguage</span>(accept),
+        supported, def);
+  },
+  "For Punjabi": function(err, locale) {
+    assert.equal(locale, "pa");
+  }
+},
+"Issue#1128 We find best locale even if region doesn't match": {
 ...</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.i18n-abide.bestLanguage" id="apidoc.module.i18n-abide.bestLanguage">module i18n-abide.bestLanguage</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.i18n-abide.bestLanguage.bestLanguage" id="apidoc.element.i18n-abide.bestLanguage.bestLanguage">
-        function <span class="apidocSignatureSpan">i18n-abide.</span>bestLanguage
-        <span class="apidocSignatureSpan">(languages, supported_languages, defaultLanguage)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">bestLanguage = function (languages, supported_languages, defaultLanguage) {
-  var lower = supported_languages.map(function(l) { return l.toLowerCase(); });
-  for(var i=0; i &lt; languages.length; i++) {
-    var lq = languages[i];
-    if (lower.indexOf(lq.lang.toLowerCase()) !== -1) {
-      return lq.lang;
-    // Issue#1128 match locale, even if region isn't supported
-    } else if (lower.indexOf(lq.lang.split('-')[0].toLowerCase()) !== -1) {
-      return lq.lang.split('-')[0];
-    }
-  }
-  return defaultLanguage;
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.i18n-abide.format" id="apidoc.module.i18n-abide.format">module i18n-abide.format</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.i18n-abide.format.format" id="apidoc.element.i18n-abide.format.format">
-        function <span class="apidocSignatureSpan">i18n-abide.</span>format
-        <span class="apidocSignatureSpan">(fmt, obj, named)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">format = function (fmt, obj, named) {
-  if (!fmt) return "";
-  if (Array.isArray(obj) || named === false) {
-    return fmt.replace(/%s/g, function(){return String(obj.shift());});
-  } else if (typeof obj === 'object' || named === true) {
-    return fmt.replace(/%\(\s*([^)]+)\s*\)s/g, function(m, v){
-      return String(obj[v.trim()]);
-    });
-  } else {
-    return fmt;
-  }
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.i18n-abide.getLocales" id="apidoc.module.i18n-abide.getLocales">module i18n-abide.getLocales</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.i18n-abide.getLocales.getLocales" id="apidoc.element.i18n-abide.getLocales.getLocales">
-        function <span class="apidocSignatureSpan">i18n-abide.</span>getLocales
-        <span class="apidocSignatureSpan">()</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">getLocales = function () {
-  return Object.keys(translations);
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.i18n-abide.languageFrom" id="apidoc.module.i18n-abide.languageFrom">module i18n-abide.languageFrom</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.i18n-abide.languageFrom.languageFrom" id="apidoc.element.i18n-abide.languageFrom.languageFrom">
-        function <span class="apidocSignatureSpan">i18n-abide.</span>languageFrom
-        <span class="apidocSignatureSpan">(locale)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">languageFrom = function (locale) {
-  if (!locale || !locale.split) {
-    return "";
-  }
-  var parts = locale.split('_');
-  var pt2;
-  if (parts.length === 1) {
-    return parts[0].toLowerCase();
-  } else if (parts.length === 2) {
-    pt2 = parts[1];
-    pt2 = (pt2.length &gt; 2) ? pt2[0].toUpperCase() + pt2.slice(1).toLowerCase() : pt2.toUpperCase();
-    return util.format('%s-%s', parts[0].toLowerCase(), pt2);
-  } else if (parts.length === 3) {
-    // sr_RS should be sr-RS
-    return util.format('%s-%s', parts[0].toLowerCase(), parts[2].toUpperCase());
-  } else {
-    logger.error(
-      util.format("Unable to map a language from locale code [%s]", locale));
-    return locale;
-  }
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.i18n-abide.localeFrom" id="apidoc.module.i18n-abide.localeFrom">module i18n-abide.localeFrom</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.i18n-abide.localeFrom.localeFrom" id="apidoc.element.i18n-abide.localeFrom.localeFrom">
-        function <span class="apidocSignatureSpan">i18n-abide.</span>localeFrom
-        <span class="apidocSignatureSpan">(language)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">localeFrom = function (language) {
-  if (! language || ! language.split) {
-    return "";
-  }
-  var parts = language.split('-');
-  var pt2;
-  if (parts.length === 1) {
-    return parts[0].toLowerCase();
-  } else if (parts.length === 2) {
-    pt2 = parts[1];
-    pt2 = (pt2.length &gt; 2) ? pt2[0].toUpperCase() + pt2.slice(1).toLowerCase() : pt2.toUpperCase();
-    return util.format('%s_%s', parts[0].toLowerCase(), pt2);
-  } else if (parts.length === 3) {
-    // sr-Cyrl-RS should be sr_RS
-    return util.format('%s_%s', parts[0].toLowerCase(), parts[2].toUpperCase());
-  } else {
-    logger.error(
-      util.format("Unable to map a local from language code [%s]", language));
-    return language;
-  }
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.i18n-abide.normalizeLanguage" id="apidoc.module.i18n-abide.normalizeLanguage">module i18n-abide.normalizeLanguage</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.i18n-abide.normalizeLanguage.normalizeLanguage" id="apidoc.element.i18n-abide.normalizeLanguage.normalizeLanguage">
-        function <span class="apidocSignatureSpan">i18n-abide.</span>normalizeLanguage
-        <span class="apidocSignatureSpan">(language)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">normalizeLanguage = function (language) {
-  return languageFrom(localeFrom(language));
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.i18n-abide.normalizeLocale" id="apidoc.module.i18n-abide.normalizeLocale">module i18n-abide.normalizeLocale</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.i18n-abide.normalizeLocale.normalizeLocale" id="apidoc.element.i18n-abide.normalizeLocale.normalizeLocale">
-        function <span class="apidocSignatureSpan">i18n-abide.</span>normalizeLocale
-        <span class="apidocSignatureSpan">(locale)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">normalizeLocale = function (locale) {
-  return localeFrom(languageFrom(locale));
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.i18n-abide.parseAcceptLanguage" id="apidoc.module.i18n-abide.parseAcceptLanguage">module i18n-abide.parseAcceptLanguage</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.i18n-abide.parseAcceptLanguage.parseAcceptLanguage" id="apidoc.element.i18n-abide.parseAcceptLanguage.parseAcceptLanguage">
-        function <span class="apidocSignatureSpan">i18n-abide.</span>parseAcceptLanguage
-        <span class="apidocSignatureSpan">(header)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">parseAcceptLanguage = function (header) {
-  // pl,fr-FR;q=0.3,en-US;q=0.1
-  if (! header || ! header.split) {
-    return [];
-  }
-  var raw_langs = header.split(',');
-  var langs = raw_langs.map(function(raw_lang) {
-    var parts = raw_lang.split(';');
-    var q = 1;
-    if (parts.length &gt; 1 &amp;&amp; parts[1].indexOf('q=') === 0) {
-      var qval = parseFloat(parts[1].split('=')[1]);
-      if (isNaN(qval) === false) {
-        q = qval;
-      }
-    }
-    return { lang: parts[0].trim(), quality: q };
-  });
-  langs.sort(qualityCmp);
-  return langs;
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
 
 
